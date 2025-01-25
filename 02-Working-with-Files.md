@@ -1,7 +1,5 @@
 # Working with Files
 
-Table of Contents
-
 - [Working with Files](#working-with-files)
   - [File Permissions](#file-permissions)
     - [Viewing the Permissions](#viewing-the-permissions)
@@ -9,6 +7,9 @@ Table of Contents
     - [Changing File Ownership](#changing-file-ownership)
     - [Permission Management Best Practices](#permission-management-best-practices)
   - [Archiving and Compressing](#archiving-and-compressing)
+    - [Common Tar Files](#common-tar-files)
+    - [Common Tar Commands](#common-tar-commands)
+    - [Compressing Files with `gzip`](#compressing-files-with-gzip)
   - [Source](#source)
 
 ## File Permissions
@@ -180,9 +181,118 @@ Properly managing file permissions is crucial for maintaining the security and i
 
 ## Archiving and Compressing
 
+**Tar** is one of the most common tool used for archiving files in Linux.
+
+What is tar? Tar stands for “tape archive” and refers to a practice from the earlier days of computing when data was backed up to tapes. Despite the nostalgic origin of the name, tar is very powerful and uses modern technologies to archive and compress files.
+
+- **Archiving** – The act of storing multiple files as one file.
+- **Compression** – The act of shrinking a larger file or files.
+
+Tar is an archiving tool. It creates a single file out of multiple files. **This saves network bandwidth, time and processing power while transferring the files**. A single file of 100 MB takes a lot less than transferring 100 files of 1 MB because of the file overhead.
+
+This is why you’ll often find software available in a ‘_tarball_‘. Tarball is the common term used for a tar file.
+
+While tar itself cannot compress files, you can use one of the common compression algorithms to compress the files while creating a tarball.
+
+### Common Tar Files
+
+- `.Tar`: This is a tarball file. It is only an archive and no compression is performed.
+
+- `.Tar.Gz` or `.tgz`: This is the extension of an archive that has been compressed with **Gzip**.
+
+- `.Tar.Bz2` or `.tbz`: This is the extension of an archive that has been compressed with **Bz2**. This is a relatively new technology. It features a higher ratio of compression, but that increased shrinking power means it takes a bit longer to complete.
+
+- `.Tar.xz` or `.txz`, etc.: Tar also features built in support for `xz`, `lzip`, and more. These tools primarily use the same compression algorithm, LZMA. The popular 7z that has become fairly common in Windows environments also uses this algorithm. Further differences in the files result from structure and metadata.
+
+### Common Tar Commands
+
+#### Basic Options
+
+- `-c` : **Create** a new tar archive.
+- `-x` : **Extract** files from a tar archive.
+- `-t` : **List** the contents of a tar archive without extracting.
+
+#### File Specification
+
+- `-f` : Specify the **archive file name** (used with `-c`, `-x`, or `-t`). \
+  Example: `tar cf archive.tar file.txt`.
+
+#### Compression
+
+- `-z` : Compress or decompress using **gzip**. \
+  Example: `tar czf archive.tar.gz folder/`.
+- `-j` : Compress or decompress using **bzip2**. \
+  Example: `tar cjf archive.tar.bz2 folder/`.
+- `-J` : Compress or decompress using **xz**. \
+  Example: `tar cJf archive.tar.xz folder/`.
+
+#### Verbose Output
+
+- `-v` : Show detailed information (verbose) during the operation. \
+  Example: `tar cvf archive.tar file.txt`.
+
+#### File Operations
+
+- `-C` : Change to a directory before performing an operation. \
+  Example: `tar xvf archive.tar -C /target/directory`.
+- `--exclude=<pattern>` : Exclude files matching a pattern from the archive. \
+  Example: `tar czf archive.tar.gz folder/ --exclude=*.log`.
+
+#### File Integrity and Comparison
+
+- `--diff` or `-d` : Compare the archive contents with the file system.
+- `--verify` : Verify the archive after writing it.
+
+#### Others
+
+- `--wildcards` : Use wildcards to match file patterns in the archive.
+  Example: `tar xvf archive.tar --wildcards "*.txt"`.
+- `--append` or `-r` : Append files to an existing tar archive.
+- `--delete` : Remove files from an archive (only works with uncompressed `.tar` files).
+
+<br />
+
+> ※ **Pay attention while using hyphen – with tar options** \
+> Usually, when you use options with a Linux command, you add hyphen (-) before the options. The hyphen before options is not mandatory and is best avoided. This is why I haven’t used it in the examples.
+>
+> If you use hyphen before the options, you should always keep the f at the end of the options. If you use tar `-cvfz`, the `z` becomes an argument for option `z`. And then you’ll see an error like this:
+>
+> `tar: doc.tar.gz: Cannot stat: No such file or directory`
+>
+> This is why it is a good practice to use the option `f` at the end of all other options so that even if you use hyphen out of habit, it won’t create a problem.
+
+### Compressing Files with `gzip`
+
+If you combine `tar` with `gzip`, the tar command will create one single archive file from the folder and then gzip will compress this archive file.
+
+```bash
+gzip <archived file (e.g. tar)>
+```
+
+The compressed file will have the extention `.gz`.
+
+To see the size of the compressed file, you can use the following command:
+
+```bash
+ls -lh <compressed file>.tar.gz
+```
+
+The `-lh` options will show the file size in a human-readable format (like KB, MB, etc.).
+
+The good thing is that you can do both of these steps in one single command by using the z option. The command looks something like this:
+
+```bash
+tar -zcvf output_file_name directory_to_compress
+```
+
+**It’s important to provide the filename in the command otherwise you’ll see error.**
+
+<small>Note: While `tar` and `gzip` are common in Linux and Unix-like systems, the `zip` format is often used for better compatibility with Windows systems.</small>
+
 ## Source
 
 - [Manage Linux File Permissions Effectively - LabEx](https://labex.io/tutorials/linux-manage-linux-file-permissions-effectively-420758)
 - [Linux File Permissions - Linux Handbook](https://linuxhandbook.com/linux-file-permissions/)
-- []()
-- []()
+- [Basic Tar Commands - Linux Handbook](https://linuxhandbook.com/basic-tar-commands/)
+- [Gzip Directory - Linux Handbook](https://linuxhandbook.com/gzip-directory/)
+- [Linux File Packaging and Compression - LabEx](https://labex.io/tutorials/linux-file-packaging-and-compression-385413)
