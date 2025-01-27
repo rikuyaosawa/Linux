@@ -10,6 +10,7 @@
     - [Common Tar Files](#common-tar-files)
     - [Common Tar Commands](#common-tar-commands)
     - [Compressing Files with `gzip`](#compressing-files-with-gzip)
+  - [Soft and Hard Links](#soft-and-hard-links)
   - [Source](#source)
 
 ## File Permissions
@@ -289,6 +290,24 @@ tar -zcvf output_file_name directory_to_compress
 
 <small>Note: While `tar` and `gzip` are common in Linux and Unix-like systems, the `zip` format is often used for better compatibility with Windows systems.</small>
 
+## Soft and Hard Links
+
+The Linux operating system provides two types of file links: symbolic links (also known as soft links) and hard links. Understanding the differences between these two link types is crucial for effectively managing and navigating the file system.
+
+**Symbolic links, or soft links**, are a special type of file that act as a pointer to another file or directory. When you create a symbolic link, it doesn't contain the actual data of the target file; instead, it stores the path to the target file. This means that symbolic links can point to files or directories located anywhere in the file system, even across different file systems or partitions.
+
+Symbolic links are useful when you want to provide an alternative way to access a file or directory, or when you want to create a shortcut to a frequently used file or directory.
+
+**Hard links**, on the other hand, are a direct reference to the actual file data on the file system. When you create a hard link, it doesn't create a new file; instead, it creates an additional directory entry that points to the same underlying file data. This means that hard links can only be created for regular files, not for directories.
+
+Hard links are useful when you want to create multiple references to the same file data, without consuming additional storage space. This can be particularly useful when you need to maintain multiple copies of a file, or when you want to ensure that a file is accessible from multiple locations in the file system.
+
+It's important to note that the behavior of symbolic and hard links can differ in various scenarios, such as file deletion, file system operations, and file permissions. Understanding these differences is crucial for effectively managing and navigating the Linux file system.
+
+> Tip: `ln` commands let you create links to files and directories.
+
+> <small>[Tutorial on how to create soft and hard links ↗](https://labex.io/tutorials/linux-create-symbolic-and-hard-links-in-linux-409944)</small>
+
 ## Source
 
 - [Manage Linux File Permissions Effectively - LabEx](https://labex.io/tutorials/linux-manage-linux-file-permissions-effectively-420758)
@@ -296,3 +315,4 @@ tar -zcvf output_file_name directory_to_compress
 - [Basic Tar Commands - Linux Handbook](https://linuxhandbook.com/basic-tar-commands/)
 - [Gzip Directory - Linux Handbook](https://linuxhandbook.com/gzip-directory/)
 - [Linux File Packaging and Compression - LabEx](https://labex.io/tutorials/linux-file-packaging-and-compression-385413)
+- [Create Symbolic and Hard Links in Linux - LabEx](https://labex.io/tutorials/linux-create-symbolic-and-hard-links-in-linux-409944)
