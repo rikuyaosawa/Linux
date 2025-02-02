@@ -9,6 +9,8 @@ Table of Contents
     - [Using `top` Command](#using-top-command)
   - [System Logs](#system-logs)
     - [Syslog Configuration](#syslog-configuration)
+  - [Available Memory / Disk](#available-memory--disk)
+    - [Monitoring Memory Usage with `free` command](#monitoring-memory-usage-with-free-command)
   - [Source](#source)
 
 ## Overview
@@ -85,7 +87,41 @@ grep "sshd" /var/log/auth.log | grep "Accepted" | tail -n 5
 
 Linux uses syslog daemon to manage log generation and routing. Configuration files like `/etc/rsyslog.conf` define log handling rules, enabling systematic log management across different system components.
 
+## Available Memory / Disk
+
+Linux memory management is a fundamental aspect of operating system design and implementation. Understanding the concepts of physical memory, virtual memory, kernel memory, and user memory is crucial for efficient resource utilization and troubleshooting memory-related issues.
+
+Types of memory:
+
+| **Type**            | **Description**                                                                 |
+| ------------------- | ------------------------------------------------------------------------------- |
+| **Physical Memory** | Actual hardware memory (RAM) storing OS, apps, and active data.                 |
+| **Virtual Memory**  | Combines RAM and disk (swap) to allow processes to use more memory.             |
+| **Kernel Memory**   | Memory used by the Linux kernel for system operations, not accessible to users. |
+| **User Memory**     | Memory for user applications, managed by the kernel's virtual memory system.    |
+| **Swap Space**      | Disk space used as extra memory when RAM is full, managed by the kernel.        |
+
+### Monitoring Memory Usage with `free` command
+
+The `free` command is a simple and effective tool for monitoring the system's memory usage. It displays the total, used, and available physical and swap memory.
+
+```bash
+free -m
+```
+
+The `-m` option specifies that the output should be displayed in megabytes (MB).
+
+Output example:
+
+```
+
+              total        used        free      shared  buff/cache   available
+Mem:           7880        1234        5233         155        1412        6220
+Swap:          2047           0        2047
+```
+
 ## Source
 
 - [What is Load Average in Linux? - DigitalOcean](https://www.digitalocean.com/community/tutorials/load-average-in-linux)
 - [How to Analyze Linux System Logs - LabEx](https://labex.io/tutorials/linux-how-to-analyze-linux-system-logs-409907)
+- [How to Check Linux memory with with free - LabEx](https://labex.io/tutorials/linux-how-to-check-linux-memory-with-free-421913)
